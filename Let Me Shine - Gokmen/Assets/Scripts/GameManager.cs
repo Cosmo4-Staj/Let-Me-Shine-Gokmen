@@ -4,17 +4,20 @@ using UnityEngine;
 using UnityEngine.SceneManagement;
 
 public class GameManager : MonoBehaviour
-{  
-    public float candleScore = 10f;
-    public float amountOfScoreDecreased = 0.5f;
-
+{
     public static GameManager instance;
+    public float candleScore;
     public static bool isGameStarted = false;
     public static bool isGameEnded = false;
 
+    public void Start() 
+    {
+
+    }
+
     void Update()
     {
-        StartCoroutine(CalculateScore());
+        candleScore = PlayerManager.instance.GetScore();
     }
 
     public void OnLevelStarted()
@@ -43,27 +46,27 @@ public class GameManager : MonoBehaviour
         TODO: Display the stars on the screen after each level
         */
 
-        if (candleScore < 10)
+        if (candleScore < 3)
         {
             Debug.Log("loser lol | score : " + candleScore);
         }
-        else if (candleScore > 10 && candleScore <= 20)
+        else if (candleScore > 3 && candleScore <= 5)
         {
             Debug.Log("1 stars | score: " + candleScore);
         }
-        else if (candleScore > 20 && candleScore <= 30)
+        else if (candleScore > 5 && candleScore <= 7)
         {
             Debug.Log("2 stars | score: " + candleScore);
         }
-        else if (candleScore > 30 && candleScore <= 50)
+        else if (candleScore > 7 && candleScore <= 10)
         {
             Debug.Log("3 stars | score: " + candleScore);
         }
-        else if (candleScore > 50 && candleScore <= 75)
+        else if (candleScore > 10 && candleScore <= 12)
         {
             Debug.Log("4 stars | score: " + candleScore);
         }
-        else if (candleScore > 75 && candleScore <= 100)
+        else if (candleScore > 12 && candleScore <= 15)
         {
             Debug.Log("5 stars | score: " + candleScore);
         }
@@ -76,12 +79,5 @@ public class GameManager : MonoBehaviour
     {
         int currentLevel = SceneManager.GetActiveScene().buildIndex;
         SceneManager.LoadScene(currentLevel);
-    }
-
-    IEnumerator CalculateScore()
-    {
-        candleScore -= amountOfScoreDecreased * Time.deltaTime;
-        yield return null;
-
     }
 }

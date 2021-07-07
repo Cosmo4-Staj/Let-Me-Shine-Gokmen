@@ -6,9 +6,12 @@ using UnityEngine;
 public class CollisionHandler : MonoBehaviour
 {
     GameManager gameManager;
+    PlayerManager playerManager;
+    public float amountToMeltOnBridge = 10f;
     void Start()
     {
         gameManager = FindObjectOfType<GameManager>();
+        playerManager = FindObjectOfType<PlayerManager>();
     }
 
 
@@ -28,13 +31,35 @@ public class CollisionHandler : MonoBehaviour
             case "Obstacle":
                 gameManager.OnLevelFailed();
                 break;
-            case "String":
-                CutCandle();
+            case "Bridge":
+                playerManager.meltBy += amountToMeltOnBridge;
                 break;
         }
     }
-    private void CutCandle()
+
+    // Puts the normal melt speed back.
+    void OnCollisionExit(Collision other) 
     {
-        Debug.Log("you hit to a string and got cut");
+        switch (other.gameObject.tag)
+        {
+            case "Bridge":
+                playerManager.meltBy -= amountToMeltOnBridge;
+                break;
+        }
+    }
+
+    // Increase candle length on pickup and speed up the melting while on bridge.
+    void OnTriggerEnter(Collider other) 
+    {
+        switch (other.gameObject.tag)
+        {
+            case "Pickup":
+                playerManager.AddLength();
+                Destroy(other.gameObject);
+                break;
+            case "String":
+                playerManager.CutLength();
+                break;
+        }
     }
 }

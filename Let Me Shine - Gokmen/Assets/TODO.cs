@@ -8,12 +8,20 @@ End of each level will have a reward system that gives you more stars if you fin
 
 1 type of pickup; candle parts to increase player's length. ✓
 
+Bridge to speed up the melting ✓
+
+String to cut down the candle. ✓
+
+Player will be a candle and it will have a fire on top which has an animation. ✓
+
+SFX & VFX when:
 
 
-
-2 types of obstacles; bridge to speed up the melting and string to cut down the candle.
-
-Player will be a candle and it will have a fire on top which has an animation.
+Candle gets cut by the string
+Candle part pickup
+During bridge
+Finish Level
+Fail Level
 
 
 

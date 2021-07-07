@@ -7,6 +7,8 @@ TagManager:
   - Pickup
   - Obstacle
   - String
+  - Ground
+  - Bridge
   layers:
   - Default
   - TransparentFX

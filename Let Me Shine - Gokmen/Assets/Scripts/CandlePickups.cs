@@ -5,6 +5,7 @@ using UnityEngine;
 public class CandlePickups : MonoBehaviour
 {
     GameManager gameManager;
+    PlayerManager playerManager;
     public bool scored = false;
     [SerializeField] GameObject playerParent;
     [SerializeField] float addCandle = 0.05f;
@@ -13,24 +14,16 @@ public class CandlePickups : MonoBehaviour
     void Start() 
     {
         gameManager = FindObjectOfType<GameManager>();
+        playerManager = FindObjectOfType<PlayerManager>();
     }
+    
     /* 
     
     Candle Pickup method 
 
     TODO: 
-    Increase length of the player here. ✓
     Add pickup particle effect.
     Add pickup sound effect.
 
     */
-    private void OnTriggerEnter(Collider other) 
-    {
-        if (other.gameObject.tag == "Player")
-        {
-            gameManager.candleScore += amountOfScoreIncreased;
-            other.gameObject.transform.localScale += new Vector3(0, addCandle, 0);
-            Destroy(gameObject);
-        }
-    }
 }
