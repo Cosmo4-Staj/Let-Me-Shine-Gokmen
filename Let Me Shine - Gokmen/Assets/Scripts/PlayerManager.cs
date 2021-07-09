@@ -15,13 +15,17 @@ public class PlayerManager : MonoBehaviour
     [SerializeField] public float growValue = 1f;
     [SerializeField] public float meltBy = 1f;
     public GameObject candlePartPrefab;
+    [SerializeField] GameObject meltPrefab;
     public float distance = 1f;
-    Vector3 testLoc = new Vector3(0f, -5.5f, 1f);
+    public bool willDie = false;
+    Vector3 partSpawnOffset = new Vector3(0f, -5.5f, 1f);
+    Vector3 deathMeltSpawnOffset = new Vector3(0f, -5.5f, 0f);
     [SerializeField] [Range(0,10)] public float cutValue = 2f;
 
     GameObject playerOffsetX;
     Vector3 currentOffset,mouseOffset;
     public Vector2 minMaxPlayerPosX;
+    public bool isCreated = false;
 
     private void Awake()
     {
@@ -95,7 +99,11 @@ public class PlayerManager : MonoBehaviour
         }
         else if (this.transform.localScale.y <= cutValue)
         {
-            gameManager.OnLevelFailed();
+            willDie=true;
+            MeltToDeath();
+            gameObject.SetActive(false);
+            Invoke("CallFail", 0.5f);
+
         }
         
     }
@@ -109,6 +117,16 @@ public class PlayerManager : MonoBehaviour
         }
     }
 
+    public void MeltToDeath()
+    {
+        if (!isCreated)
+        {
+            Instantiate(meltPrefab, transform.position - deathMeltSpawnOffset * distance, Quaternion.identity);
+            isCreated=true;
+        }
+        
+    }
+
     // gets score to print later on
     public float GetScore()
     {
@@ -117,6 +135,10 @@ public class PlayerManager : MonoBehaviour
 
     public void SpawnCandlePart()
     {
-        Instantiate(candlePartPrefab, transform.position - testLoc * distance, Quaternion.identity);
+        Instantiate(candlePartPrefab, transform.position - partSpawnOffset * distance, Quaternion.identity); 
+    }
+    public void CallFail()
+    {
+        gameManager.OnLevelFailed();
     }
 }

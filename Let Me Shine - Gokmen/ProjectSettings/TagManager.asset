@@ -9,6 +9,9 @@ TagManager:
   - String
   - Ground
   - Bridge
+  - Back
+  - Front
+  - Decorative
   layers:
   - Default
   - TransparentFX

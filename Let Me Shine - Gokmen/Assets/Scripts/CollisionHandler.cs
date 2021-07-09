@@ -7,12 +7,17 @@ public class CollisionHandler : MonoBehaviour
 {
     GameManager gameManager;
     PlayerManager playerManager;
+    AudioSource audioSource;
     public float amountToMeltOnBridge = 10f;
+    public float levelLoadDelay = 1f;
+    [SerializeField] AudioClip finish;
+    [SerializeField] ParticleSystem finishParticles;
     
     void Start()
     {
         gameManager = FindObjectOfType<GameManager>();
         playerManager = FindObjectOfType<PlayerManager>();
+        audioSource = GetComponent<AudioSource>();
     }
 
 
@@ -27,7 +32,10 @@ public class CollisionHandler : MonoBehaviour
         switch (other.gameObject.tag)
         {
             case "Finish":
-                gameManager.OnLevelCompleted();
+                playerManager.enabled=false;
+                audioSource.PlayOneShot(finish);
+                finishParticles.Play();
+                Invoke("Finish", levelLoadDelay);
                 break;
             case "Obstacle":
                 gameManager.OnLevelFailed();
@@ -59,9 +67,18 @@ public class CollisionHandler : MonoBehaviour
                 Destroy(other.gameObject);
                 break;
             case "String":
-                playerManager.SpawnCandlePart();
                 playerManager.CutLength();
+
+                if (playerManager.willDie==false)
+                {
+                    playerManager.SpawnCandlePart();
+                }
                 break;
         }
+    }
+
+    void Finish()
+    {
+        gameManager.OnLevelCompleted();
     }
 }

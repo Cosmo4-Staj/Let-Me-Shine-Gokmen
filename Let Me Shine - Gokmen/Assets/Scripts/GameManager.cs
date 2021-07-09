@@ -10,28 +10,36 @@ public class GameManager : MonoBehaviour
 
     public static int level;
     public GameObject finishLevelScreen;
+    public GameObject gameOverScreen;
     public GameObject starCountText;
+    public GameObject scoreText;
     public float candleScore;
     public static bool isGameStarted = false;
     public static bool isGameEnded = false;
     public int finalScore;
+    
     public List<GameObject> levelList = new List<GameObject>();
     PlayerManager playerManager;
+    AudioSource audioSource;
 
+    [SerializeField] AudioClip finish;
+    [SerializeField] ParticleSystem finishParticles;
 
     public void Start() 
-    {
+    {    
         playerManager = FindObjectOfType<PlayerManager>();
+        audioSource = GetComponent<AudioSource>();
         finishLevelScreen.SetActive(false);
-        Instantiate(levelList[level], transform.position, Quaternion.identity);
-        Debug.Log(level);
-        
+        gameOverScreen.SetActive(false);
+        PlayerPrefs.SetInt("Level", level);
+        Instantiate(levelList[PlayerPrefs.GetInt("Level")], transform.position, Quaternion.identity);      
     }
 
     void Update()
     {
         candleScore = PlayerManager.instance.GetScore();
         starCountText.GetComponent<TextMeshProUGUI>().SetText(finalScore.ToString());
+        scoreText.GetComponent<TextMeshProUGUI>().SetText(Mathf.RoundToInt(candleScore).ToString());
         TooSmallToLive();
 
     }
@@ -50,8 +58,8 @@ public class GameManager : MonoBehaviour
 
     public void OnLevelCompleted() // Loads the next level
     {
+        
         finishLevelScreen.gameObject.SetActive(true);
-        playerManager.enabled=false;
         Time.timeScale=0;
         level=1;
 
@@ -101,9 +109,11 @@ public class GameManager : MonoBehaviour
 
     public void OnLevelFailed() // Loads the current scene back on collision with an obstacle.
     {
-        int currentLevel = SceneManager.GetActiveScene().buildIndex;
-        SceneManager.LoadScene(currentLevel);
-        Time.timeScale=1;
+        Time.timeScale=0;
+        gameOverScreen.gameObject.SetActive(true);
+        //int currentLevel = SceneManager.GetActiveScene().buildIndex;
+        //SceneManager.LoadScene(currentLevel);
+        //Time.timeScale=1;
     }
 
     // loads next level upon button tap
@@ -117,7 +127,11 @@ public class GameManager : MonoBehaviour
     {
         if (candleScore <= 1)
         {
-            OnLevelFailed();
+            playerManager.MeltToDeath();
+            playerManager.gameObject.SetActive(false);
+            Invoke("OnLevelFailed", 0.5f);
         }
     }
+
+    
 }

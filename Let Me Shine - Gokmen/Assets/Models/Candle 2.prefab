@@ -4736,7 +4736,7 @@ GameObject:
   - component: {fileID: 8811448139879613091}
   m_Layer: 0
   m_Name: Candle Decorative 2
-  m_TagString: Untagged
+  m_TagString: Decorative
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -4814,7 +4814,7 @@ CapsuleCollider:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 7132905722079981288}
   m_Material: {fileID: 0}
-  m_IsTrigger: 0
+  m_IsTrigger: 1
   m_Enabled: 1
   m_Radius: 0.5000001
   m_Height: 2
@@ -4850,7 +4850,7 @@ GameObject:
   - component: {fileID: 3775585909962717536}
   m_Layer: 0
   m_Name: TinyFire5
-  m_TagString: Untagged
+  m_TagString: Decorative
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
